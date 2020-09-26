@@ -8,8 +8,8 @@ DATA
 |--train1  
 |--train2  
 |--train3  
-      |--labels_train3.npy  
-      |--cloud  
-            |--000001.ply  
-            |--000002.ply  
+&emsp;&emsp;|--labels_train3.npy  
+&emsp;&emsp;|--cloud  
+&emsp;&emsp;&emsp;&emsp;|--000001.ply   
+&emsp;&emsp;&emsp;&emsp;|--000002.ply    
   
