@@ -856,6 +856,7 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         fl_grasp = glob.glob(os.path.join(path, self.tag, '*/', '*.ply'))
         fl_pc = glob.glob(os.path.join(path, self.tag, '*/labels_', self.tag, '*.npy'))'''
         
+<<<<<<< HEAD
        
         self.d_pc, self.d_grasp, self.label_list = {}, {}, {}
         self.plys, label = [], {}
@@ -881,6 +882,12 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         self.amount = len(self.label_list)
         print("Initialization finished.")
 
+=======
+        grasp_pc = glob.glob(os.path.join(path, 'train*', 'cloud', '*.ply'))
+        
+        self.d_pc, self.d_grasp, self.label_list = {}, {}, {}
+        self.plys = []
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
         '''
 
         for i in fl_pc:
@@ -895,11 +902,33 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         for i in fl_grasp:
             k = i.split('/')[-1].split('.')[0]
             self.d_grasp[k] = i
+<<<<<<< HEAD
         
       
         object1 = set(self.d_grasp.keys())
         object2 = set(self.transform.keys())
         self.object = list(object1.intersection(object2))'''
+=======
+        '''
+        label = []
+        label.append(np.load(path+'train1/labels_train1.npy'))
+        label.append(np.load(path+'train2/labels_train2.npy'))
+        label.append(np.load(path+'train3/labels_train3.npy'))
+        label.append(np.load(path+'train4/labels_train4.npy'))
+        
+        for i in grasp_pc:
+            train_num = int(i.split('/')[-3][-1])
+            #print(label_path)
+            k = int(i.split('/')[-1].split('.')[0])
+            self.plys.append(i)
+            self.label_list[i] = label[train_num-1][k]
+        '''
+        object1 = set(self.d_grasp.keys())
+        object2 = set(self.transform.keys())
+        self.object = list(object1.intersection(object2))'''
+        self.amount = len(self.label_list)
+        print("Initialization finished.")
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
 
     def collect_pc(self, grasp, pc, transform):
         center = grasp[0:3]
@@ -1078,7 +1107,11 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         return output
 
     def __getitem__(self, index):
+<<<<<<< HEAD
        
+=======
+        
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
         if len(self.label_list)==0:
             return None
 

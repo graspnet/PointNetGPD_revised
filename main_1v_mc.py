@@ -21,14 +21,23 @@ parser.add_argument('--epoch', type=int, default=200)
 parser.add_argument('--mode', choices=['train', 'test'], required=True)
 parser.add_argument('--batch-size', type=int, default=1)
 parser.add_argument('--cuda', action='store_true')
+<<<<<<< HEAD
 parser.add_argument('--gpu', type=int, default=3)
 parser.add_argument('--lr', type=float, default=0.0005)
+=======
+parser.add_argument('--gpu', type=int, default=2)
+parser.add_argument('--lr', type=float, default=0.005)
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
 parser.add_argument('--load-model', type=str, default='')
 parser.add_argument('--load-epoch', type=int, default=-1)
 parser.add_argument('--model-path', type=str, default='./assets/learned_models',
                    help='pre-trained model path')
 parser.add_argument('--data-path', type=str, default='/DATA2/chenxi/MinkowskiEngine/data/gpd_data_v4/', help='data path')
+<<<<<<< HEAD
 parser.add_argument('--log-interval', type=int, default=1000)
+=======
+parser.add_argument('--log-interval', type=int, default=10)
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
 parser.add_argument('--save-interval', type=int, default=1)
 
 args = parser.parse_args()
@@ -117,14 +126,21 @@ scheduler = StepLR(optimizer, step_size=30, gamma=0.5)
 
 def train(model, loader, epoch):
     print('we are training')
+<<<<<<< HEAD
     optimizer.step()
+=======
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
     scheduler.step()
     model.train()
     torch.set_grad_enabled(True)
     correct = 0
     dataset_size = 0
     for batch_idx, (data, target) in enumerate(loader):
+<<<<<<< HEAD
         #print("Now is the batch" + str(batch_idx))
+=======
+        print("Now is the batch" + str(batch_idx))
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
         dataset_size += data.shape[0]
         data, target = data.float(), target.long().squeeze()
         if args.cuda:
@@ -154,12 +170,17 @@ def test(model, loader):
     da = {}
     db = {}
     res = []
+<<<<<<< HEAD
     for data, target in loader:
+=======
+    for data, target, obj_name in loader:
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
         dataset_size += data.shape[0]
         data, target = data.float(), target.long().squeeze()
         if args.cuda:
             data, target = data.cuda(), target.cuda()
         output, _ = model(data) # N*C
+<<<<<<< HEAD
         test_loss += F.nll_loss(output, target, reduction='sum').cpu().item()
         
         pred = output.data.max(1, keepdim=True)[1]
@@ -168,6 +189,14 @@ def test(model, loader):
         for i, j, k in zip(obj_name, pred.data.cpu().numpy(), target.data.cpu().numpy()):
             res.append((i, j[0], k))
         '''
+=======
+        test_loss += F.nll_loss(output, target, size_average=False).cpu().item()
+        pred = output.data.max(1, keepdim=True)[1]
+        correct += pred.eq(target.view_as(pred)).long().cpu().sum()
+        for i, j, k in zip(obj_name, pred.data.cpu().numpy(), target.data.cpu().numpy()):
+            res.append((i, j[0], k))
+
+>>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
     test_loss /= len(loader.dataset)
     acc = float(correct)/float(dataset_size)
     return acc, test_loss
