@@ -1,0 +1,1 @@
+from .collision_detector import ModelFreeCollisionDetector

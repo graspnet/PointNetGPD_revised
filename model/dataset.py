@@ -2,7 +2,11 @@ import os
 import glob
 import pickle
 
+<<<<<<< Updated upstream
 import pcl
+=======
+#import pcl
+>>>>>>> Stashed changes
 import torch
 import torch.utils.data
 import torch.nn as nn
@@ -11,7 +15,11 @@ import open3d
 import pandas as pd
 from torchvision import transforms
 
+<<<<<<< Updated upstream
 
+=======
+'''
+>>>>>>> Stashed changes
 class PointGraspDataset(torch.utils.data.Dataset):
     def __init__(self, obj_points_num, grasp_points_num, pc_file_used_num, grasp_amount_per_file, thresh_good,
                  thresh_bad, path, tag, with_obj=False, projection=False, project_chann=3, project_size=60):
@@ -824,7 +832,11 @@ class PointGraspOneViewDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return self.amount
+<<<<<<< Updated upstream
 
+=======
+'''
+>>>>>>> Stashed changes
 
 class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
     def __init__(self, grasp_points_num, grasp_amount_per_file, thresh_good,
@@ -854,9 +866,15 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         self.transform = pickle.load(open(os.path.join('/home/gaojin/code/PointNetGPD/PointNetGPD/data/', 'google2cloud.pkl'), 'rb'))
         '''
         fl_grasp = glob.glob(os.path.join(path, self.tag, '*/', '*.ply'))
+<<<<<<< Updated upstream
         fl_pc = glob.glob(os.path.join(path, self.tag, '*/labels_', self.tag, '*.npy'))'''
         
 <<<<<<< HEAD
+=======
+        fl_pc = glob.glob(os.path.join(path, self.tag, '*/labels_', self.tag, '*.npy'))
+        '''
+        
+>>>>>>> Stashed changes
        
         self.d_pc, self.d_grasp, self.label_list = {}, {}, {}
         self.plys, label = [], {}
@@ -865,7 +883,11 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
             for i in range(1,5):
                 label[i] = np.load(path + 'train{}/labels_train{}.npy'.format(i, i))
             
+<<<<<<< Updated upstream
             for i in grasp_pc:
+=======
+            for i in grasp_pc[:1000]:
+>>>>>>> Stashed changes
                 train_num = int(i.split('/')[-3][-1])
                 #print(label_path)
                 k = int(i.split('/')[-1].split('.')[0])
@@ -875,19 +897,26 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
             grasp_pc = glob.glob(os.path.join(path, 'test_novel', 'cloud', '*.ply'))
             label[0] = np.load(path + 'test_novel/labels_test_novel.npy')
             
+<<<<<<< Updated upstream
             for i in grasp_pc:
+=======
+            for i in grasp_pc[:1000]:
+>>>>>>> Stashed changes
                 k = int(i.split('/')[-1].split('.')[0])
                 self.plys.append(i)
                 self.label_list[i] = label[0][k]
         self.amount = len(self.label_list)
         print("Initialization finished.")
 
+<<<<<<< Updated upstream
 =======
         grasp_pc = glob.glob(os.path.join(path, 'train*', 'cloud', '*.ply'))
         
         self.d_pc, self.d_grasp, self.label_list = {}, {}, {}
         self.plys = []
 >>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
+=======
+>>>>>>> Stashed changes
         '''
 
         for i in fl_pc:
@@ -902,12 +931,16 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         for i in fl_grasp:
             k = i.split('/')[-1].split('.')[0]
             self.d_grasp[k] = i
+<<<<<<< Updated upstream
 <<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
         
       
         object1 = set(self.d_grasp.keys())
         object2 = set(self.transform.keys())
         self.object = list(object1.intersection(object2))'''
+<<<<<<< Updated upstream
 =======
         '''
         label = []
@@ -929,6 +962,8 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         self.amount = len(self.label_list)
         print("Initialization finished.")
 >>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
+=======
+>>>>>>> Stashed changes
 
     def collect_pc(self, grasp, pc, transform):
         center = grasp[0:3]
@@ -1107,16 +1142,26 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         return output
 
     def __getitem__(self, index):
+<<<<<<< Updated upstream
 <<<<<<< HEAD
        
 =======
         
 >>>>>>> a9fc64760b36adc06d7d772e52c04514aa96e708
+=======
+       
+>>>>>>> Stashed changes
         if len(self.label_list)==0:
             return None
 
         path =  self.plys[index]
+<<<<<<< Updated upstream
         obj = np.asarray(open3d.io.read_point_cloud(filename = path, print_progress=False).points)
+=======
+        pc = open3d.io.read_point_cloud(filename = path, print_progress=False).points
+        obj = np.asarray(pc)
+        
+>>>>>>> Stashed changes
         if not self.projection:
             if len(obj) > self.grasp_points_num:
                 obj = obj[np.random.choice(len(obj), size = self.grasp_points_num, replace=False)].T
@@ -1142,6 +1187,10 @@ class PointGraspOneViewMultiClassDataset(torch.utils.data.Dataset):
         else:
             return grasp_pc, label
         '''
+<<<<<<< Updated upstream
+=======
+        # obj <class 'numpy.ndarray'>
+>>>>>>> Stashed changes
         return obj, label
 
     def __len__(self):
